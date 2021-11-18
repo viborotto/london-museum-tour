@@ -2,7 +2,6 @@
 
 ## Atividade 2 | Computação Gráfica:  desenvolvimento de uma aplicação gráfica 3D
 
-link web: https://viborotto.github.io/london-museum-tour/
 
 
 ### Autores:    
@@ -50,7 +49,7 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 
 #### Interação durante o Tour no Museu: 
 			
-1. Abra a aplicação por meio do link https://viborotto.github.io/london-museum-tour/ 
+1. Abra a aplicação localmente 
 2. Para interagir aperte as seguintes teclas: 
     -  Seta para cima ou W: ande para frente
     -  Seta para baixo ou S: ande para trás
@@ -59,3 +58,6 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 	
 #### Para mais informaçōes sobre o Museu de Historia Natural de Londres:  
 https://en.wikipedia.org/wiki/Natural_History_Museum,_London
+
+#### Referência modelo 3d:
+https://sketchfab.com/3d-models/hintze-hall-nhm-london-surface-model-b2f3e84112d04bf1844e7ac2c4423566

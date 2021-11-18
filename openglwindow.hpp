@@ -38,6 +38,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   float m_panSpeed{0.0f};
 
   bool firstExec{true};
+  bool exp1{true};
 
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;

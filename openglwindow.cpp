@@ -238,13 +238,13 @@ void OpenGLWindow::paintUI() {
     }
     {
     if (m_camera.m_eye[1] < 2.90 && m_camera.m_eye[1] > 2.31 && m_camera.m_eye[2] < 1.10 && m_camera.m_eye[2] > -0.51) {
-        firstExec = true;
-        if(firstExec) {
+        
+        if(exp1) {
         auto widgetSize{ImVec2(800, 250)};
         ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
                                       (m_viewportHeight - widgetSize.y) / 2));
         ImGui::SetNextWindowSize(widgetSize);
-        ImGui::Begin("Exposição 1", &firstExec);
+        ImGui::Begin("Exposição 1", &exp1);
 
         ImGui::Text("A exposição 1 se trata de um...[em construção]");
 
