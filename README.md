@@ -31,9 +31,9 @@ O Museu apresentado é a porta de entrada para novos conhecimentos, nele, você 
 	
 - Dispositivos de E/S(Teclado,mouse e monitor): <BR>
 	◼️ Durante a atividade foram utilizados os conceitos de Dispositivos de entrada e saída. <BR>
-	◼️ Dispositivos de entrada: temos como exemplo as setas e as letras F,V,B,C que ao utilizar um deles você interage com o programa navegando pelo espaço 2D do set.<BR>
+	◼️ Dispositivos de entrada: temos como exemplo as setas e as letras W,S,A,D,Q,E que ao utilizar um deles você interage com o programa navegando pelo espaço 3D.<BR>
 	◼️ Dispositivos de saída: Toda interação com a atividade, reflete em mudanças que são exibidas no monitor do usuário.<BR>
-	◼️ Processadores: Para os diversos processamentos do set se faz necessário o uso de CPU's,GPU's e seus subsistemas.<BR>
+	◼️ Processadores: Para os diversos processamentos do modelo 3D se faz necessário o uso de CPU's,GPU's e seus subsistemas.<BR>
 - Framebuffer <BR>
 	◼️ Frame Buffer é uma memória especializada em armazenar e transferir para a tela do computador dados de um quadro de imagem. As informações armazenadas nesta memória consistem basicamente em valores cromáticos para cada pixel e suas transparências. Quanto maior a resolução da imagem retratada maior será a memória necessária para o frame Buffer armazenar as imagens.<BR>
 - Rasterização <BR>
@@ -44,8 +44,13 @@ O Museu apresentado é a porta de entrada para novos conhecimentos, nele, você 
 	◼️ O fragment shader é um programa que processa cada fragmento individualmente após a rasterização. A entrada do fragment shader é o mesmo conjunto de atributos definidos pelo usuário na saída do vertex shader.
 - VBO <BR>
 	◼️ O Vertex buffer object (VBO) permite que arrays de vértices sejam armazenados na memória gráfica de alta performance do lado do servidor e promove transferência eficiência de dados.<BR>
+	◼️ Projeção Ortográfica: translação, escala, reflexão .<BR>
+	◼️ Projeção Perspectiva: Na projeção perspectiva, quanto mais distantes os objetos estiverem do centro de projeção, menor ficarão quando projetados. Isso produz o efeito de diminuição de tamanho de objetos distantes, que é o que percebemos no mundo real.<BR>
+	◼️ Visualizador 3D.<BR>
 
 __A aplicação desenvolvida consiste em uma navegação pelo Museu de História natural de Londres.__
+![Screen Shot 2021-11-18 at 21 24 50](https://user-images.githubusercontent.com/50744121/142517816-0a9feb09-01f4-4637-8958-c2917a0058e5.png)
+![Screen Shot 2021-11-18 at 21 25 03](https://user-images.githubusercontent.com/50744121/142517841-328bf33e-fc22-453f-ad65-23c6abee2a6f.png)
 
 #### Interação durante o Tour no Museu: 
 			
