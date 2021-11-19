@@ -44,9 +44,9 @@ O Museu apresentado é a porta de entrada para novos conhecimentos, nele, você 
 	◼️ O fragment shader é um programa que processa cada fragmento individualmente após a rasterização. A entrada do fragment shader é o mesmo conjunto de atributos definidos pelo usuário na saída do vertex shader.
 - VBO <BR>
 	◼️ O Vertex buffer object (VBO) permite que arrays de vértices sejam armazenados na memória gráfica de alta performance do lado do servidor e promove transferência eficiência de dados.<BR>
-	◼️ Projeção Ortográfica: translação, escala, reflexão .<BR>
-	◼️ Projeção Perspectiva: Na projeção perspectiva, quanto mais distantes os objetos estiverem do centro de projeção, menor ficarão quando projetados. Isso produz o efeito de diminuição de tamanho de objetos distantes, que é o que percebemos no mundo real.<BR>
-	◼️ Visualizador 3D.<BR>
+- Projeção Ortográfica: translação, escala, reflexão .<BR>
+- Projeção Perspectiva: Na projeção perspectiva, quanto mais distantes os objetos estiverem do centro de projeção, menor ficarão quando projetados. Isso produz o efeito de diminuição de tamanho de objetos distantes, que é o que percebemos no mundo real.<BR>
+- Visualizador 3D.<BR>
 
 __A aplicação desenvolvida consiste em uma navegação pelo Museu de História natural de Londres.__
 ![Screen Shot 2021-11-18 at 21 24 50](https://user-images.githubusercontent.com/50744121/142517816-0a9feb09-01f4-4637-8958-c2917a0058e5.png)
