@@ -2,7 +2,7 @@
 
 ## Atividade 2 | Computação Gráfica:  desenvolvimento de uma aplicação gráfica 3D
 
-
+> Observação: devido ao tamanho do modelo 3D, não conseguimos disponibilizar o projeto na web. Portanto, para que execute a aplicação localmente basta utilizar o git clone e rodar por meio do comando sh build.sh, apos isso acessar o diretório /abcg/build/bin/london-museum-tour e rodar o executavel london-museum-tour.
 
 ### Autores:    
 
@@ -24,6 +24,22 @@ Normalmente a visita virtual em um Museu, consiste em andar sobre o museu, visua
 Ande sob o maior animal da Terra e explore dezenas de outras exposições que representam 4,5 bilhões de anos de história natural.
 
 O Museu apresentado é a porta de entrada para novos conhecimentos, nele, você pode passear entre meteoritos, mamíferos, peixes, pássaros, minerais, plantas e insetos.
+
+__A aplicação desenvolvida consiste em uma navegação pelo Museu de História natural de Londres.__
+![Screen Shot 2021-11-18 at 21 24 50](https://user-images.githubusercontent.com/50744121/142517816-0a9feb09-01f4-4637-8958-c2917a0058e5.png)
+![Screen Shot 2021-11-18 at 21 25 03](https://user-images.githubusercontent.com/50744121/142517841-328bf33e-fc22-453f-ad65-23c6abee2a6f.png)
+
+#### Interação durante o Tour no Museu: 
+			
+1. Abra a aplicação localmente 
+2. Para interagir aperte as seguintes teclas: 
+    -  Seta para cima ou W: ande para frente
+    -  Seta para baixo ou S: ande para trás
+    -  Seta para a direta ou D: ande para a direita
+    -  Seta para a esquerda ou A: ande para a esquerda
+    -  Ao se aproximar da exposição, a esquerda do inicio do programa, conforme imagem, abrirá uma janela que terá uma breve descrição da exposição 1: 
+
+	<img width="995" alt="Screen Shot 2021-11-21 at 20 19 30" src="https://user-images.githubusercontent.com/50744121/142782880-02170a1e-06a7-4911-8825-cdf8db1f259d.png">
 
 **Conceitos utilizados durante a atividade 2** 💻:
 - Representação vetorial no OpenGL (GLTRIANGLES) <BR>
@@ -47,22 +63,14 @@ O Museu apresentado é a porta de entrada para novos conhecimentos, nele, você 
 - Projeção Ortográfica: translação, escala, reflexão .<BR>
 - Projeção Perspectiva: Na projeção perspectiva, quanto mais distantes os objetos estiverem do centro de projeção, menor ficarão quando projetados. Isso produz o efeito de diminuição de tamanho de objetos distantes, que é o que percebemos no mundo real.<BR>
 - Visualizador 3D.<BR>
-
-__A aplicação desenvolvida consiste em uma navegação pelo Museu de História natural de Londres.__
-![Screen Shot 2021-11-18 at 21 24 50](https://user-images.githubusercontent.com/50744121/142517816-0a9feb09-01f4-4637-8958-c2917a0058e5.png)
-![Screen Shot 2021-11-18 at 21 25 03](https://user-images.githubusercontent.com/50744121/142517841-328bf33e-fc22-453f-ad65-23c6abee2a6f.png)
-
-#### Interação durante o Tour no Museu: 
-			
-1. Abra a aplicação localmente 
-2. Para interagir aperte as seguintes teclas: 
-    -  Seta para cima ou W: ande para frente
-    -  Seta para baixo ou S: ande para trás
-    -  Seta para a direta ou D: ande para a direita
-    -  Seta para a esquerda ou A: ande para a esquerda
 	
 #### Para mais informaçōes sobre o Museu de Historia Natural de Londres:  
 https://en.wikipedia.org/wiki/Natural_History_Museum,_London
 
 #### Referência modelo 3d:
 https://sketchfab.com/3d-models/hintze-hall-nhm-london-surface-model-b2f3e84112d04bf1844e7ac2c4423566
+	
+#### Em desenvolvimento: 
+- [ ] Iluminação do modelo
+- [ ] Textura
+- [ ] Acrescentar 10 exposiçōes ao modelo, com descrição sobre o material exposto
