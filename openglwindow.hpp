@@ -39,6 +39,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
 
   bool firstExec{true};
   bool exp1{true};
+  bool exp2{true};
 
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;

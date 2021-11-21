@@ -237,6 +237,7 @@ void OpenGLWindow::paintUI() {
     ImGui::End();
     }
     {
+      // Marlin Azul do Atlantico
     if (m_camera.m_eye[1] < 2.90 && m_camera.m_eye[1] > 2.31 && m_camera.m_eye[2] < 1.10 && m_camera.m_eye[2] > -0.51) {
         
         if(exp1) {
@@ -246,8 +247,27 @@ void OpenGLWindow::paintUI() {
         ImGui::SetNextWindowSize(widgetSize);
         ImGui::Begin("Exposição 1", &exp1);
 
-        ImGui::Text("A exposição 1 se trata de um...[em construção]");
+        ImGui::Text("Marlin azul do atlantico, O peixe de quatro metros de comprimento foi descoberto em uma praia de Pembrokeshire.");
+        ImGui::Text("Embora algumas pessoas tenham pensado inicialmente que era um peixe-espada, ele foi identificado como um marlin azul - ");
+        ImGui::Text("apenas o terceiro que foi encontrado no Reino Unido.");
+        ImGui::Text("Após a inspeção na praia, o Conselho do Condado de Pembrokeshire transferiu o peixe para um armazenamento temporário");
+        ImGui::Text("e relatou a descoberta ao Programa de Investigação de Cetáceos do Reino Unido, que notificou o Museu.");
+        ImGui::End();
+      }
+    }
+  }
+  {
+// Girafa - em ajuste
+ if (m_camera.m_eye[1] < -2.55 && m_camera.m_eye[1] > -2.70 && m_camera.m_eye[2] < 1.10 && m_camera.m_eye[2] > -3.68) {        
+        if(exp2) {
+        auto widgetSize{ImVec2(800, 250)};
+        ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
+                                      (m_viewportHeight - widgetSize.y) / 2));
+        ImGui::SetNextWindowSize(widgetSize);
+        ImGui::Begin("Exposição 2", &exp2);
 
+        ImGui::Text("A girafa é o mais alto de todos os animais vivos. Ele pode atingir quase seis metros acima do solo");
+        ImGui::Text("e pode fazê-lo porque suas pernas e pescoço são muito alongados em comparação com o resto do corpo.");
         ImGui::End();
       }
     }
