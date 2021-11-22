@@ -41,7 +41,7 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
     -  Seta para a esquerda ou A: ande para a esquerda
     -  Ao se aproximar da exposição, a esquerda do inicio do programa, conforme imagem, abrirá uma janela que terá uma breve descrição da exposição 1: 
 
-	<img width="995" alt="Screen Shot 2021-11-21 at 20 19 30" src="https://user-images.githubusercontent.com/50744121/142782880-02170a1e-06a7-4911-8825-cdf8db1f259d.png">
+	<img width="550" alt="Screen Shot 2021-11-21 at 20 19 30" src="https://user-images.githubusercontent.com/50744121/142782880-02170a1e-06a7-4911-8825-cdf8db1f259d.png">
 
 **Conceitos utilizados durante a atividade 2** 💻:
 - Representação vetorial no OpenGL (GLTRIANGLES) <BR>
