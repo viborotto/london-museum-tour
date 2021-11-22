@@ -30,8 +30,9 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 ![Screen Shot 2021-11-18 at 21 25 03](https://user-images.githubusercontent.com/50744121/142517841-328bf33e-fc22-453f-ad65-23c6abee2a6f.png)
 
 #### Interação durante o Tour no Museu: 
-<a href=""><img align="left" width="550" src="https://github.com/viborotto/london-museum-tour/blob/main/londonmuseumtour.gif"></a> 
-	<BR>				
+<a href=""><img align="center" width="550" src="https://github.com/viborotto/london-museum-tour/blob/main/londonmuseumtour.gif"></a> 
+	<BR>		
+		<BR>
 1. Abra a aplicação localmente 
 2. Para interagir aperte as seguintes teclas: 
     -  Seta para cima ou W: ande para frente
