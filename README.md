@@ -1,6 +1,6 @@
 # london-museum-tour 
 
-## Atividade 2 | Computação Gráfica:  desenvolvimento de uma aplicação gráfica 3D
+## Atividade 2 & 3 | Computação Gráfica:  desenvolvimento de uma aplicação gráfica 3D, interativa com Iluminação e Textura
 
 > Observação: devido ao tamanho do modelo 3D, não conseguimos disponibilizar o projeto na web. Portanto, para que execute a aplicação localmente basta utilizar o git clone e rodar por meio do comando sh build.sh, apos isso acessar o diretório /abcg/build/bin/london-museum-tour e rodar o executavel london-museum-tour.
 
@@ -66,6 +66,19 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 - Projeção Perspectiva: Na projeção perspectiva, quanto mais distantes os objetos estiverem do centro de projeção, menor ficarão quando projetados. Isso produz o efeito de diminuição de tamanho de objetos distantes, que é o que percebemos no mundo real.<BR>
 - Visualizador 3D.<BR>
 	
+**Conceitos utilizados durante a atividade 3** 💻:
+- Iluminação
+  - Sombreamento
+	- Normais como cores
+- Texturização
+  - Mapeamento
+  - Renderização
+  - Mapeamento de normais
+
+
+# Projeto Finalizado:
+
+
 #### Para mais informaçōes sobre o Museu de Historia Natural de Londres:  
 https://en.wikipedia.org/wiki/Natural_History_Museum,_London
 
