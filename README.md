@@ -73,6 +73,6 @@ https://en.wikipedia.org/wiki/Natural_History_Museum,_London
 https://sketchfab.com/3d-models/hintze-hall-nhm-london-surface-model-b2f3e84112d04bf1844e7ac2c4423566
 	
 #### Em desenvolvimento: 
-- [ ] Iluminação do modelo
-- [ ] Textura
+- [x] Iluminação do modelo
+- [x] Textura
 - [ ] Acrescentar 10 exposiçōes ao modelo, com descrição sobre o material exposto

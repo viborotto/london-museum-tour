@@ -1,24 +1,11 @@
 #include "openglwindow.hpp"
 
-#include <fmt/core.h>
 #include <imgui.h>
-#include <tiny_obj_loader.h>
 
 #include <cppitertools/itertools.hpp>
-#include <glm/gtx/fast_trigonometry.hpp>
-#include <glm/gtx/hash.hpp>
-#include <unordered_map>
+#include <glm/gtc/matrix_inverse.hpp>
 
-// Explicit specialization of std::hash for Vertex
-namespace std {
-template <>
-struct hash<Vertex> {
-  size_t operator()(Vertex const& vertex) const noexcept {
-    const std::size_t h1{std::hash<glm::vec3>()(vertex.position)};
-    return h1;
-  }
-};
-}  // namespace std
+#include "imfilebrowser.h"
 
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
@@ -53,150 +40,82 @@ void OpenGLWindow::handleEvent(SDL_Event& ev) {
 
 void OpenGLWindow::initializeGL() {
   abcg::glClearColor(0, 0, 0, 1);
-
-  // Enable depth buffering
   abcg::glEnable(GL_DEPTH_TEST);
 
-  // Create program
-  m_program = createProgramFromFile(getAssetsPath() + "lookat.vert",
-                                    getAssetsPath() + "lookat.frag");
+  // Create programs
+  m_program = createProgramFromFile(getAssetsPath() + "shaders/texture.vert",
+                                    getAssetsPath() + "shaders/texture.frag");
 
+  // Load default model
+  loadModel(getAssetsPath() + "hintze-hall-1m.obj");
+  m_mappingMode = 3;
 
-  // Load model
-  loadModelFromFile(getAssetsPath() + "Museu.obj");
-
-  // Generate VBO
-  abcg::glGenBuffers(1, &m_VBO);
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  abcg::glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices[0]) * m_vertices.size(),
-                     m_vertices.data(), GL_STATIC_DRAW);
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  // Generate EBO
-  abcg::glGenBuffers(1, &m_EBO);
-  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-  abcg::glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     sizeof(m_indices[0]) * m_indices.size(), m_indices.data(),
-                     GL_STATIC_DRAW);
-  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-  // Create VAO
-  abcg::glGenVertexArrays(1, &m_VAO);
-
-  // Bind vertex attributes to current VAO
-  abcg::glBindVertexArray(m_VAO);
-
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  const GLint positionAttribute{
-      abcg::glGetAttribLocation(m_program, "inPosition")};
-  abcg::glEnableVertexAttribArray(positionAttribute);
-  abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE,
-                              sizeof(Vertex), nullptr);
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-
-  // End of binding to current VAO
-  abcg::glBindVertexArray(0);
-
-  resizeGL(getWindowSettings().width, getWindowSettings().height);
 }
 
-void OpenGLWindow::loadModelFromFile(std::string_view path) {
-  tinyobj::ObjReader reader;
+void OpenGLWindow::loadModel(std::string_view path) {
+  m_model.terminateGL();
 
-  if (!reader.ParseFromFile(path.data())) {
-    if (!reader.Error().empty()) {
-      throw abcg::Exception{abcg::Exception::Runtime(
-          fmt::format("Failed to load model {} ({})", path, reader.Error()))};
-    }
-    throw abcg::Exception{
-        abcg::Exception::Runtime(fmt::format("Failed to load model {}", path))};
-  }
+  m_model.loadDiffuseTexture(getAssetsPath() + "hintze-hall-1m_u1_v1.jpg");
+  m_model.loadObj(path);
+  m_model.setupVAO(m_program);
+  m_trianglesToDraw = m_model.getNumTriangles();
 
-  if (!reader.Warning().empty()) {
-    fmt::print("Warning: {}\n", reader.Warning());
-  }
-
-  const auto& attrib{reader.GetAttrib()};
-  const auto& shapes{reader.GetShapes()};
-
-  m_vertices.clear();
-  m_indices.clear();
-
-  // A key:value map with key=Vertex and value=index
-  std::unordered_map<Vertex, GLuint> hash{};
-
-  // Loop over shapes
-  for (const auto& shape : shapes) {
-    // Loop over indices
-    for (const auto offset : iter::range(shape.mesh.indices.size())) {
-      // Access to vertex
-      const tinyobj::index_t index{shape.mesh.indices.at(offset)};
-
-      // Vertex position
-      const int startIndex{3 * index.vertex_index};
-      const float vx{attrib.vertices.at(startIndex + 0)};
-      const float vy{attrib.vertices.at(startIndex + 1)};
-      const float vz{attrib.vertices.at(startIndex + 2)};
-
-      Vertex vertex{};
-      vertex.position = {vx, vy, vz};
-
-      // If hash doesn't contain this vertex
-      if (hash.count(vertex) == 0) {
-        // Add this index (size of m_vertices)
-        hash[vertex] = m_vertices.size();
-        // Add this vertex
-        m_vertices.push_back(vertex);
-      }
-
-      m_indices.push_back(hash[vertex]);
-    }
-  }
+  // Use material properties from the loaded model
+  m_Ka = m_model.getKa();
+  m_Kd = m_model.getKd();
+  m_Ks = m_model.getKs();
+  m_shininess = m_model.getShininess();
 }
+
 
 void OpenGLWindow::paintGL() {
   update();
 
-  // Clear color buffer and depth buffer
   abcg::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   abcg::glViewport(0, 0, m_viewportWidth, m_viewportHeight);
 
+  // Use currently selected program
   abcg::glUseProgram(m_program);
 
-  // Get location of uniform variables (could be precomputed)
-  const GLint viewMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "viewMatrix")};
-  const GLint projMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "projMatrix")};
+  // Get location of uniform variables
+  const GLint viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
+  const GLint projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
   const GLint modelMatrixLoc{
       abcg::glGetUniformLocation(m_program, "modelMatrix")};
-  const GLint colorLoc{abcg::glGetUniformLocation(m_program, "color")};
+  const GLint shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
+  const GLint IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
+  const GLint IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
+  const GLint IsLoc{abcg::glGetUniformLocation(m_program, "Is")};
+  const GLint KaLoc{abcg::glGetUniformLocation(m_program, "Ka")};
+  const GLint KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
+  const GLint KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
+  const GLint diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
+  const GLint mappingModeLoc{
+      abcg::glGetUniformLocation(m_program, "mappingMode")};
 
-  // Set uniform variables for viewMatrix and projMatrix
-  // These matrices are used for every scene object
-  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE,
-                           &m_camera.m_viewMatrix[0][0]);
-  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE,
-                           &m_camera.m_projMatrix[0][0]);
+  // Set uniform variables used by every scene object
+  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.m_viewMatrix[0][0]);
+  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.m_projMatrix[0][0]);
+  abcg::glUniform1i(diffuseTexLoc, 0);
+  abcg::glUniform1i(mappingModeLoc, m_mappingMode);
 
-  abcg::glBindVertexArray(m_VAO);
+  // abcg::glUniformMatrix3fv(texMatrixLoc, 1, GL_TRUE, &texMatrix[0][0]);
 
-  // Draw white bunny
-  glm::mat4 model{1.0f};
-  model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 0.0f));
-  model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0, 1, 0));
-  model = glm::scale(model, glm::vec3(0.5f));
+  abcg::glUniform4fv(IaLoc, 1, &m_Ia.x);
+  abcg::glUniform4fv(IdLoc, 1, &m_Id.x);
+  abcg::glUniform4fv(IsLoc, 1, &m_Is.x);
 
-  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f);
-  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
-                       nullptr);
+  // Set uniform variables of the current object
+  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
 
-  abcg::glBindVertexArray(0);
+  const auto modelViewMatrix{glm::mat3(m_viewMatrix * m_modelMatrix)};
 
+  abcg::glUniform1f(shininessLoc, m_shininess);
+  abcg::glUniform4fv(KaLoc, 1, &m_Ka.x);
+  abcg::glUniform4fv(KdLoc, 1, &m_Kd.x);
+  abcg::glUniform4fv(KsLoc, 1, &m_Ks.x);
+
+  m_model.render(m_trianglesToDraw);
 
   abcg::glUseProgram(0);
 }
@@ -247,30 +166,9 @@ void OpenGLWindow::paintUI() {
         ImGui::SetNextWindowSize(widgetSize);
         ImGui::Begin("Exposição 5 - Árvores Fósseis", &exp5);
 
-<<<<<<< HEAD
         ImGui::Text("Juntos, eles abrangem centenas de milhões de anos de história da Terra, desde a árvore de 358 milhões ");
         ImGui::Text("de anos na frente da caixa até o espécime comparativamente mais jovem"); 
         ImGui::Text("na parte traseira, que tem entre 23 e 65 milhões de anos.");
-=======
-        ImGui::Text("Marlin azul do atlantico, O peixe de quatro metros de comprimento foi descoberto em uma praia de Pembrokeshire.");
-        ImGui::Text("Embora algumas pessoas tenham pensado inicialmente que era um peixe-espada, ele foi identificado como um marlin azul - ");
-        ImGui::Text("apenas o terceiro que foi encontrado no Reino Unido.");
-        ImGui::Text("Após a inspeção na praia, o Conselho do Condado de Pembrokeshire transferiu o peixe para um armazenamento temporário");
-        ImGui::Text("e relatou a descoberta ao Programa de Investigação de Cetáceos do Reino Unido, que notificou o Museu.");
-        ImGui::End();
-      }
-    }
-  }
-  {
-// Girafa - em ajuste
- if (m_camera.m_eye[1] < -2.55 && m_camera.m_eye[1] > -2.70 && m_camera.m_eye[2] < 1.10 && m_camera.m_eye[2] > -3.68) {        
-        if(exp2) {
-        auto widgetSize{ImVec2(800, 250)};
-        ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
-                                      (m_viewportHeight - widgetSize.y) / 2));
-        ImGui::SetNextWindowSize(widgetSize);
-        ImGui::Begin("Exposição 2", &exp2);
->>>>>>> 11522a052fb0822e8e3c0a26301c982a7ad0179f
 
         ImGui::Text("A girafa é o mais alto de todos os animais vivos. Ele pode atingir quase seis metros acima do solo");
         ImGui::Text("e pode fazê-lo porque suas pernas e pescoço são muito alongados em comparação com o resto do corpo.");
@@ -396,14 +294,12 @@ void OpenGLWindow::resizeGL(int width, int height) {
   m_viewportHeight = height;
 
   m_camera.computeProjectionMatrix(width, height);
+
 }
 
 void OpenGLWindow::terminateGL() {
-
-  abcg::glDeleteProgram(m_program);
-  abcg::glDeleteBuffers(1, &m_EBO);
-  abcg::glDeleteBuffers(1, &m_VBO);
-  abcg::glDeleteVertexArrays(1, &m_VAO);
+  m_model.terminateGL();
+    abcg::glDeleteProgram(m_program);
 }
 
 void OpenGLWindow::update() {

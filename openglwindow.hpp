@@ -1,18 +1,9 @@
 #ifndef OPENGLWINDOW_HPP_
 #define OPENGLWINDOW_HPP_
 
-#include <vector>
-
 #include "abcg.hpp"
+#include "model.hpp"
 #include "camera.hpp"
-
-struct Vertex {
-  glm::vec3 position;
-
-  bool operator==(const Vertex& other) const {
-    return position == other.position;
-  }
-};
 
 class OpenGLWindow : public abcg::OpenGLWindow {
  protected:
@@ -24,36 +15,80 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   void terminateGL() override;
 
  private:
-  GLuint m_VAO{};
-  GLuint m_VBO{};
-  GLuint m_EBO{};
-  GLuint m_program{};
-
   int m_viewportWidth{};
   int m_viewportHeight{};
 
+  Model m_model;
+  int m_trianglesToDraw{};
+
+  glm::mat4 m_modelMatrix{1.0f};
+  glm::mat4 m_viewMatrix{1.0f};
+  glm::mat4 m_projMatrix{1.0f};
+
+  // Shaders
+  GLuint m_program{};
+
+  //camera
   Camera m_camera;
   float m_dollySpeed{0.0f};
   float m_truckSpeed{0.0f};
   float m_panSpeed{0.0f};
-
-  bool firstExec{true};
+   bool firstExec{true};
   bool exp1{true};
   bool exp2{true};
-<<<<<<< HEAD
   bool exp3{true};
   bool exp4{true};
   bool exp5{true};
   bool exp6{true};
   bool exp7{true};
   bool exp10{true};
-=======
->>>>>>> 11522a052fb0822e8e3c0a26301c982a7ad0179f
+  // Mapping mode
+  // 0: triplanar; 1: cylindrical; 2: spherical; 3: from mesh
+  int m_mappingMode{};
 
-  std::vector<Vertex> m_vertices;
-  std::vector<GLuint> m_indices;
+  // Light and material properties
+  glm::vec4 m_lightDir{-1.0f, -1.0f, -1.0f, 0.0f};
+  glm::vec4 m_Ia{1.0f};
+  glm::vec4 m_Id{1.0f};
+  glm::vec4 m_Is{1.0f};
+  glm::vec4 m_Ka;
+  glm::vec4 m_Kd;
+  glm::vec4 m_Ks;
+  float m_shininess{};
 
-  void loadModelFromFile(std::string_view path);
+  // Skybox
+  const std::string m_skyShaderName{"skybox"};
+  GLuint m_skyVAO{};
+  GLuint m_skyVBO{};
+  GLuint m_skyProgram{};
+
+  // clang-format off
+  const std::array<glm::vec3, 36>  m_skyPositions{
+    // Front
+    glm::vec3{-1, -1, +1}, glm::vec3{+1, -1, +1}, glm::vec3{+1, +1, +1},
+    glm::vec3{-1, -1, +1}, glm::vec3{+1, +1, +1}, glm::vec3{-1, +1, +1},
+    // Back
+    glm::vec3{+1, -1, -1}, glm::vec3{-1, -1, -1}, glm::vec3{-1, +1, -1},
+    glm::vec3{+1, -1, -1}, glm::vec3{-1, +1, -1}, glm::vec3{+1, +1, -1},
+    // Right
+    glm::vec3{+1, -1, -1}, glm::vec3{+1, +1, -1}, glm::vec3{+1, +1, +1},
+    glm::vec3{+1, -1, -1}, glm::vec3{+1, +1, +1}, glm::vec3{+1, -1, +1},
+    // Left
+    glm::vec3{-1, -1, +1}, glm::vec3{-1, +1, +1}, glm::vec3{-1, +1, -1},
+    glm::vec3{-1, -1, +1}, glm::vec3{-1, +1, -1}, glm::vec3{-1, -1, -1},
+    // Top
+    glm::vec3{-1, +1, +1}, glm::vec3{+1, +1, +1}, glm::vec3{+1, +1, -1},
+    glm::vec3{-1, +1, +1}, glm::vec3{+1, +1, -1}, glm::vec3{-1, +1, -1},
+    // Bottom
+    glm::vec3{-1, -1, -1}, glm::vec3{+1, -1, -1}, glm::vec3{+1, -1, +1},
+    glm::vec3{-1, -1, -1}, glm::vec3{+1, -1, +1}, glm::vec3{-1, -1, +1}
+  };
+  // clang-format on
+
+  void initializeSkybox();
+  void renderSkybox();
+  void terminateSkybox();
+  void loadModel(std::string_view path);
   void update();
 };
 
