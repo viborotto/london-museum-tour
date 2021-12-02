@@ -76,8 +76,11 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
   - Mapeamento de normais
 
 
-# Projeto Finalizado:
+# Projeto Finalizado
+			<img width="992" alt="Screen Shot 2021-12-01 at 23 05 00" src="https://user-images.githubusercontent.com/50744121/144344062-ac37c3a9-2956-4a40-a2bc-3640169a23b3.png">
 
+
+<img width="992" alt="Screen Shot 2021-12-01 at 23 06 00" src="https://user-images.githubusercontent.com/50744121/144344166-8c8aea2e-bb43-47fc-a5a9-23bcc182e9be.png">
 
 #### Para mais informaçōes sobre o Museu de Historia Natural de Londres:  
 https://en.wikipedia.org/wiki/Natural_History_Museum,_London
