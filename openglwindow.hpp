@@ -30,7 +30,7 @@ class OpenGLWindow : public abcg::OpenGLWindow {
 
   //camera
   Camera m_camera;
-  float m_dollySpeed{0.0f};
+  float m_dollySpeed{0.00f};
   float m_truckSpeed{0.0f};
   float m_panSpeed{0.0f};
    bool firstExec{true};
@@ -41,7 +41,11 @@ class OpenGLWindow : public abcg::OpenGLWindow {
   bool exp5{true};
   bool exp6{true};
   bool exp7{true};
+  bool exp9{true};
   bool exp10{true};
+  bool exp11{true};
+  bool exp12{true};
+  bool exp13{true};
   // Mapping mode
   // 0: triplanar; 1: cylindrical; 2: spherical; 3: from mesh
   int m_mappingMode{};

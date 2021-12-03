@@ -5,7 +5,7 @@
 void Camera::computeProjectionMatrix(int width, int height) {
   m_projMatrix = glm::mat4(1.0f);
   const auto aspect{static_cast<float>(width) / static_cast<float>(height)};
-  m_projMatrix = glm::perspective(glm::radians(70.0f), aspect, 0.1f, 5.0f);
+  m_projMatrix = glm::perspective(glm::radians(70.0f), aspect, 0.01f, 5.0f);
 }
 
 void Camera::computeViewMatrix() {
@@ -17,7 +17,7 @@ void Camera::dolly(float speed) {
   const glm::vec3 forward{glm::normalize(m_at - m_eye)};
 
   // Move eye and center forward (speed > 0) or backward (speed < 0)
-  m_eye += forward * speed;
+  m_eye += forward * speed ;
   m_at += forward * speed;
 
   computeViewMatrix();

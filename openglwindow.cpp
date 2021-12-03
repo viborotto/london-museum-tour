@@ -10,15 +10,15 @@
 void OpenGLWindow::handleEvent(SDL_Event& ev) {
   if (ev.type == SDL_KEYDOWN) {
     if (ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w)
-      m_dollySpeed = 1.0f;
+      m_dollySpeed = 0.5f;
     if (ev.key.keysym.sym == SDLK_DOWN || ev.key.keysym.sym == SDLK_s)
-      m_dollySpeed = -1.0f;
+      m_dollySpeed = -0.5f;
     if (ev.key.keysym.sym == SDLK_LEFT || ev.key.keysym.sym == SDLK_a)
-      m_panSpeed = -1.0f;
+      m_panSpeed = -0.5f;
     if (ev.key.keysym.sym == SDLK_RIGHT || ev.key.keysym.sym == SDLK_d)
-      m_panSpeed = 1.0f;
-    if (ev.key.keysym.sym == SDLK_q) m_truckSpeed = -1.0f;
-    if (ev.key.keysym.sym == SDLK_e) m_truckSpeed = 1.0f;
+      m_panSpeed = 0.5f;
+    if (ev.key.keysym.sym == SDLK_q) m_truckSpeed = -0.5f;
+    if (ev.key.keysym.sym == SDLK_e) m_truckSpeed = 0.5f;
   }
   if (ev.type == SDL_KEYUP) {
     if ((ev.key.keysym.sym == SDLK_UP || ev.key.keysym.sym == SDLK_w) &&
@@ -131,10 +131,11 @@ void OpenGLWindow::paintUI() {
       ImGui::Begin("Instruções", &firstExec);
 
       ImGui::Text("Bem-vindo ao Museu de História Natural de Londres");
-      ImGui::Text("Para explorar e aprender bastar andar pelo museu, e ler sobre suas exposiçōes");
+      ImGui::Text("Para explorar e aprender bastar andar pelo museu, e ler sobre suas exposiçoes");
       ImGui::Text("Comandos:");
       ImGui::Text("Girar a câmera: A e D");
       ImGui::Text("Andar: W, S, Q e E");
+      ImGui::Text("Após visualizar uma exposiçao, clique com o mouse para liberar a câmera");
       // ImGui::Text("Shift: Agachar");
       // ImGui::Text("Espaço: Interagir");
 
@@ -157,25 +158,26 @@ void OpenGLWindow::paintUI() {
     }
     {
       // Marlin Azul do Atlantico
-    if (m_camera.m_eye[1] < 2.90 && m_camera.m_eye[1] > 2.31 && m_camera.m_eye[2] < 1.10 && m_camera.m_eye[2] > -0.51) {
+    if (m_camera.m_eye[0] < 0.02 && m_camera.m_eye[0] > -0.02 && m_camera.m_eye[1] < 0.29 && m_camera.m_eye[1] > 0.16) {
         
-        if(exp1) {
+        if(exp5) {
         auto widgetSize{ImVec2(800, 250)};
         ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
                                       (m_viewportHeight - widgetSize.y) / 2));
         ImGui::SetNextWindowSize(widgetSize);
         ImGui::Begin("Exposição 5 - Árvores Fósseis", &exp5);
-
         ImGui::Text("Juntos, eles abrangem centenas de milhões de anos de história da Terra, desde a árvore de 358 milhões ");
         ImGui::Text("de anos na frente da caixa até o espécime comparativamente mais jovem"); 
         ImGui::Text("na parte traseira, que tem entre 23 e 65 milhões de anos.");
-
         ImGui::Text("A girafa é o mais alto de todos os animais vivos. Ele pode atingir quase seis metros acima do solo");
         ImGui::Text("e pode fazê-lo porque suas pernas e pescoço são muito alongados em comparação com o resto do corpo.");
+        m_truckSpeed=0.0f;
+        m_dollySpeed=0.0f;
+        m_panSpeed=0.0f;
         ImGui::End();
       }
     }
-    if (m_camera.m_eye[1] < -2.5 && m_camera.m_eye[1] > -3 && m_camera.m_eye[2] < 5 && m_camera.m_eye[2] > 4.5) {
+    if (m_camera.m_eye[0] < -0.32 && m_camera.m_eye[0] > -0.38 && m_camera.m_eye[1] < -0.16 && m_camera.m_eye[1] > -0.35) {
         
         if(exp10) {
         auto widgetSize{ImVec2(800, 250)};
@@ -184,19 +186,23 @@ void OpenGLWindow::paintUI() {
         ImGui::SetNextWindowSize(widgetSize);
         ImGui::Begin("Exposição 10 -  Algas marinhas", &exp10);
 
-        ImGui::Text("Eles podem não parecer muito quando levados para a praia, mas as algas marinhas fornecem um habitat subaquático vital. ");
+        ImGui::Text("Eles podem não parecer muito quando levados para a praia, mas as algas marinhas fornecem um ");
+        ImGui::Text("habitat subaquático vital.");
         ImGui::Text("A professora Juliet Brodie está lançando luz sobre as vastas florestas que crescem em nossos oceanos.");
         ImGui::Text("Existem muitas espécies de algas marinhas que chamam de lar os mares frios da Grã-Bretanha."); 
-        ImGui::Text("O maior deles são kelps.Essas algas marrons crescem da costa até 20-30 metros, ou mais se a água estiver limpa. "); 
-        ImGui::Text("Eles formam florestas densas e fornecem um habitat para uma diversidade de vida marinha.");
+        ImGui::Text("O maior deles são kelps.Essas algas marrons crescem da costa até 20-30 metros, ou mais se a água"); 
+        ImGui::Text(" estiver limpa. Eles formam florestas densas e fornecem um habitat para uma diversidade de vida marinha.");
         ImGui::Text("Juliet diz: ‘Eles podem ser viveiros de peixes e fornecer serviços para muitos outros tipos diferentes");
-        ImGui::Text("de animais e algas marinhas. A floresta está cheia de toda essa vida incrível. ");
-        ImGui::Text("' Até mesmo o holdfast - a estrutura que conecta grandes algas marrons aos fundos ");
+        ImGui::Text("de animais e algas marinhas. A floresta está cheia de toda essa vida incrível.");
+        ImGui::Text("' Até mesmo o holdfast - a estrutura que conecta grandes algas marrons aos fundos");
         ImGui::Text("marinhos rochosos - sustenta uma grande quantidade de vida.");
+        m_truckSpeed=0.0f;
+        m_dollySpeed=0.0f;
+        m_panSpeed=0.0f;
         ImGui::End();
       }
       }
-      if (m_camera.m_eye[1] < 3 && m_camera.m_eye[1] > 2 && m_camera.m_eye[2] < 5 && m_camera.m_eye[2] > 4.5) {
+      if (m_camera.m_eye[0] < -0.14 && m_camera.m_eye[0] > -0.30 && m_camera.m_eye[1] < 0.30  && m_camera.m_eye[1] > 0.14) {
         
         if(exp6) {
         auto widgetSize{ImVec2(800, 250)};
@@ -212,15 +218,17 @@ void OpenGLWindow::paintUI() {
         ImGui::Text("Esse oxigênio se combinou com o ferro dissolvido no mar para formar óxido de ferro insolúvel,");
         ImGui::Text("que afundou no fundo do mar. À medida que assentava, folhas de óxido de ferro vermelho ");
         ImGui::Text("foram colocadas entre camadas de lodo rico em sílica.");
-        ImGui::Text("Ao longo de centenas de milhões de anos, o oxigênio se ligou a todo o ferro solúvel disponível nas águas.");
+        ImGui::Text("Ao longo de centenas de milhões de anos, o oxigênio se ligou a todo o ferro solúvel nas águas.");
         ImGui::Text("O oxigênio livre restante não tinha outro lugar para ir, a não ser para cima e para fora na atmosfera.");
         ImGui::Text("As camadas intrincadas na formação representam um ponto de viragem na história da Terra conhecido ");
         ImGui::Text("como o Grande Evento de Oxigenação.");
-
+        m_truckSpeed=0.0f;
+        m_dollySpeed=0.0f;
+        m_panSpeed=0.0f;
         ImGui::End();
       }
     }
-  if (m_camera.m_eye[1] < 2.1 && m_camera.m_eye[1] > 2 && m_camera.m_eye[2] < -3 && m_camera.m_eye[2] > -4.5) {
+  if (m_camera.m_eye[0] < 0.35 && m_camera.m_eye[0] > 0.28 && m_camera.m_eye[1] < 0.35 && m_camera.m_eye[1] > 0.13) {
           
           if(exp3) {
           auto widgetSize{ImVec2(800, 250)};
@@ -233,13 +241,15 @@ void OpenGLWindow::paintUI() {
           ImGui::Text("a Idade do Gelo até 13.000 anos atrás.");
           ImGui::Text("Mastodontes viviam em florestas de pinheiros e áreas pantanosas cobertas por larício e abetos, ");
           ImGui::Text("alimentando-se de galhos, folhas e plantas aquáticas.");
-          ImGui::Text("Adaptados para a vida na beira da água, eles tinham pés largos e dedos dos pés atarracados e bem abertos.");
-          ImGui::Text("Isso permitiu que eles andassem no solo macio e alagado ao lado de lagoas e lagos.");
-
+          ImGui::Text("Adaptados para a vida na beira da água, eles tinham pés largos e dedos dos pés atarracados");
+          ImGui::Text(" e bem abertos. Isso permitiu que eles andassem no solo macio e alagado ao lado de lagoas e lagos.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
           ImGui::End();
         }
       }
-       if (m_camera.m_eye[1] < 3 && m_camera.m_eye[1] > 2.1 && m_camera.m_eye[2] < 7.6 && m_camera.m_eye[2] > 6.5) {
+       if (m_camera.m_eye[0] < -0.47 && m_camera.m_eye[0] > -0.51 && m_camera.m_eye[1] < 0.30 && m_camera.m_eye[1] > 0.14) {
           
           if(exp7) {
           auto widgetSize{ImVec2(800, 250)};
@@ -257,12 +267,15 @@ void OpenGLWindow::paintUI() {
           ImGui::Text("vasta área de deserto árido.");
           ImGui::Text("O meteorito não é apenas bonito, ele contém informações sobre a história inicial ");
           ImGui::Text("de nosso próprio planeta, desde o início do sistema solar.");
-          
-
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
           ImGui::End();
+          
         }
+          
       }
-      if (m_camera.m_eye[1] < 2 && m_camera.m_eye[1] > 2.1 && m_camera.m_eye[2] < -1 && m_camera.m_eye[2] > -2.5) {
+      if (m_camera.m_eye[0] < 0.18 && m_camera.m_eye[0] > 0.13 && m_camera.m_eye[1] < 0.34 && m_camera.m_eye[1] > 0.14) {
           
           if(exp4) {
           auto widgetSize{ImVec2(800, 250)};
@@ -270,15 +283,85 @@ void OpenGLWindow::paintUI() {
                                         (m_viewportHeight - widgetSize.y) / 2));
           ImGui::SetNextWindowSize(widgetSize);
           ImGui::Begin("Exposição 4 - Esqueleto de Mantellisaurus", &exp4);
-          ImGui::Text("O iguanodonte foi um dos três primeiros dinossauros a ser descoberto, mas o famoso réptil pode ter arrastado vários esqueletos ");
-          ImGui::Text("identificados erroneamente em seu rastro.");
-          ImGui::Text("Um dos esqueletos mais completos do mundo de Mantellisaurus atherfieldensis está em exibição no Hintze Hall do Museu, ");
-          ImGui::Text("recentemente remodelado.");
-          ImGui::Text("No entanto, o dinossauro só recentemente reivindicou sua verdadeira identidade, após passar mais de 80 anos conhecido ");
-          ImGui::Text("pelo mundo como uma espécie de iguanodonte.");
-
+          ImGui::Text("O iguanodonte foi um dos três primeiros dinossauros a ser descoberto, mas o famoso réptil pode ter");
+          ImGui::Text("arrastado vários esqueletos identificados erroneamente em seu rastro.");
+          ImGui::Text("Um dos esqueletos mais completos do mundo de Mantellisaurus atherfieldensis está em exibição no Hintze");
+          ImGui::Text("Hall do Museu, recentemente remodelado.");
+          ImGui::Text("No entanto, o dinossauro só recentemente reivindicou sua verdadeira identidade,");
+          ImGui::Text("após passar mais de 80 anos conhecido pelo mundo como uma espécie de iguanodonte.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
+          ImGui::End();
+        }
+      }
+        if (m_camera.m_eye[0] < -0.49 && m_camera.m_eye[0] > -0.57 && m_camera.m_eye[1] < -0.19 && m_camera.m_eye[1] > -0.35  ) {
           
+          if(exp9) {
+          auto widgetSize{ImVec2(800, 250)};
+          ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
+                                        (m_viewportHeight - widgetSize.y) / 2));
+          ImGui::SetNextWindowSize(widgetSize);
+          ImGui::Begin("Exposição 9 - insetos", &exp9);
+          ImGui::Text("O número de insetos no mundo é enorme. Existem cerca de cinco e meio milhões de espécies diferentes");
+          ImGui::Text(" de insetos e muitos milhões de indivíduos de qualquer uma dessas espécies.");
+          ImGui::Text("Portanto, não é de surpreender que os insetos como grupo tenham um efeito amplo e profundo ");
+          ImGui::Text("no mundo ao nosso redor.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
+          ImGui::End();
+        }
+      }
 
+       if (m_camera.m_eye[0] < 0.01 && m_camera.m_eye[0] > -0.06 && m_camera.m_eye[1] < -0.18 && m_camera.m_eye[1] > -0.35) {
+          
+          if(exp11) {
+          auto widgetSize{ImVec2(800, 250)};
+          ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
+                                        (m_viewportHeight - widgetSize.y) / 2));
+          ImGui::SetNextWindowSize(widgetSize);
+          ImGui::Begin("Exposição 11 - Turbinaria bifrons", &exp11);
+          ImGui::Text("Um coral antigo branqueado é uma adição instigante ao Hintze Hall.Pesando mais de 300 quilos, o gigante ");
+          ImGui::Text("Turbinaria bifrons foi coletado no Shark Bay Reef, na costa da Austrália Ocidental, há mais de 120 anos.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
+          ImGui::End();
+        }
+      }
+
+      if (m_camera.m_eye[0] < 0.21 && m_camera.m_eye[0] > 0.14 && m_camera.m_eye[1] < -0.19 && m_camera.m_eye[1] > -0.35) {
+          
+          if(exp12) {
+          auto widgetSize{ImVec2(800, 250)};
+          ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
+                                        (m_viewportHeight - widgetSize.y) / 2));
+          ImGui::SetNextWindowSize(widgetSize);
+          ImGui::Begin("Exposição 12 - Marlin azul do atlântico", &exp12);
+          ImGui::Text("O peixe de quatro metros de comprimento foi descoberto em uma praia de Pembrokeshire na semana passada.");
+          ImGui::Text("Embora algumas pessoas tenham pensado inicialmente que era um peixe-espada, ele foi identificado ");
+          ImGui::Text("como um marlin azul - apenas o terceiro foi encontrado no Reino Unido.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
+          ImGui::End();
+        }
+      }
+
+       if (m_camera.m_eye[0] < 0.35 && m_camera.m_eye[0] > 0.29 && m_camera.m_eye[1] < -0.18 && m_camera.m_eye[1] > -0.35) {
+          
+          if(exp13) {
+          auto widgetSize{ImVec2(800, 250)};
+          ImGui::SetNextWindowPos(ImVec2((m_viewportWidth - widgetSize.x) / 2,
+                                        (m_viewportHeight - widgetSize.y) / 2));
+          ImGui::SetNextWindowSize(widgetSize);
+          ImGui::Begin("Exposição 13 - Girafa", &exp13);
+          ImGui::Text("A girafa é o mais alto de todos os animais vivos. Ele pode atingir quase seis metros acima do solo ");
+          ImGui::Text("e pode fazê-lo porque suas pernas e pescoço são muito alongados em comparação com o resto do corpo.");
+          m_truckSpeed=0.0f;
+          m_dollySpeed=0.0f;
+          m_panSpeed=0.0f;
           ImGui::End();
         }
       }
