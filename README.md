@@ -33,7 +33,7 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 <a href=""><img align="center" width="880" src="https://github.com/viborotto/london-museum-tour/blob/main/londonmuseumtour.gif"></a> 
 	<BR>		
 		<BR>
-<a href=""><img align="center" width="880" src="https://github.com/viborotto/london-museum-tour/blob/main/finallondontour.gif"></a> 
+
 1. Abra a aplicação localmente 
 2. Para interagir aperte as seguintes teclas: 
     -  Seta para cima ou W: ande para frente
@@ -83,6 +83,8 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 
 
 <img width="992" alt="Screen Shot 2021-12-01 at 23 06 00" src="https://user-images.githubusercontent.com/50744121/144344166-8c8aea2e-bb43-47fc-a5a9-23bcc182e9be.png">
+			
+<a href=""><img align="center" width="880" src="https://github.com/viborotto/london-museum-tour/blob/main/finallondontour.gif"></a> 
 
 #### Para mais informaçōes sobre o Museu de Historia Natural de Londres:  
 https://en.wikipedia.org/wiki/Natural_History_Museum,_London
