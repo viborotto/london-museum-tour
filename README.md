@@ -33,6 +33,7 @@ __A aplicação desenvolvida consiste em uma navegação pelo Museu de História
 <a href=""><img align="center" width="880" src="https://github.com/viborotto/london-museum-tour/blob/main/londonmuseumtour.gif"></a> 
 	<BR>		
 		<BR>
+<a href=""><img align="center" width="880" src="https://github.com/viborotto/london-museum-tour/blob/main/finallondontour.gif"></a> 
 1. Abra a aplicação localmente 
 2. Para interagir aperte as seguintes teclas: 
     -  Seta para cima ou W: ande para frente
@@ -92,4 +93,4 @@ https://sketchfab.com/3d-models/hintze-hall-nhm-london-surface-model-b2f3e84112d
 #### Em desenvolvimento: 
 - [x] Iluminação do modelo
 - [x] Textura
-- [ ] Acrescentar 10 exposiçōes ao modelo, com descrição sobre o material exposto
+- [x] Acrescentar 10 exposiçōes ao modelo, com descrição sobre o material exposto
